@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  name         String
+  email        String         @unique
+  passwordHash String
+  role         String
+  workouts     Workout[]
+  goals        Goal[]
+  programs     TrainerProgram[] @relation("TrainerPrograms")
+  userPrograms UserProgram[]
+  trainerCV    TrainerCV?      @relation("TrainerCV")
+  createdAt    DateTime       @default(now())
+}
+
+model TrainerCV {
+  id           Int       @id @default(autoincrement())
+  trainer      User      @relation("TrainerCV", fields: [trainerId], references: [id])
+  trainerId    Int       @unique
+  bio          String?
+  experience   String
+  skills       String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Workout {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  date      DateTime
+  type      String
+  duration  Int
+  notes     String?
+}
+
+model Goal {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  description String
+  target_date DateTime
+  status      String
+}
+
+model TrainerProgram {
+  id          Int      @id @default(autoincrement())
+  trainer     User     @relation("TrainerPrograms", fields: [trainerId], references: [id])
+  trainerId   Int
+  title       String
+  description String
+  is_free     Boolean
+  userPrograms UserProgram[]
+}
+
+model UserProgram {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  program    TrainerProgram @relation(fields: [programId], references: [id])
+  programId  Int
+  start_date DateTime
+  is_active  Boolean
+}
+

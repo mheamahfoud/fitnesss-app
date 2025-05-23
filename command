@@ -4,7 +4,7 @@ npm -v
 git --version
 
 # Clone or copy project
-git clone https://github.com/mheamahfoud/fitnesss-app.git
+git clone https://github.com/your-username/fitness-app.git
 cd fitness-app
 
 # Install dependencies
