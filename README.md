@@ -1,24 +1,24 @@
-# Verify Node.js and Git
-node -v
-npm -v
-git --version
+# Fitness App Setup Guide
 
-# Clone or copy project
-git clone https://github.com/mheamahfoud/fitnesss-app.git
+## Prerequisites
+Make sure you have the following installed on your system:
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- Git
+
+## Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/mheamahfoud/fitness-app.git
 cd fitness-app
 
-# Install dependencies
+
 npm install
 
-# Set up environment
-touch .env.local
-echo "NEXTAUTH_SECRET=$(openssl rand -base64 32)" >> .env.local
-echo "DATABASE_URL=file:./dev.db" >> .env.local
-echo "NEXTAUTH_URL=http://localhost:3000" >> .env.local
 
-# Set up Prisma
 npx prisma migrate dev --name init
 npx prisma generate
 
-# Run the app
 npm run dev
